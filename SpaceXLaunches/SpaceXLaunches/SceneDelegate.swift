@@ -1,4 +1,4 @@
-import PastLaunches
+import PastLaunchesFeature
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {

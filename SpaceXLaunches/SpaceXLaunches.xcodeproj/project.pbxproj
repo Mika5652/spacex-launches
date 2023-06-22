@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F606C56F2A44CA01000978BC /* PastLaunchesFeature in Frameworks */ = {isa = PBXBuildFile; productRef = F606C56E2A44CA01000978BC /* PastLaunchesFeature */; };
 		F62B172F2A438E9900F824A3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62B172E2A438E9900F824A3 /* SceneDelegate.swift */; };
 		F62B17362A438E9A00F824A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F62B17352A438E9A00F824A3 /* Assets.xcassets */; };
 		F62B175D2A43924A00F824A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62B175C2A43924A00F824A3 /* AppDelegate.swift */; };
-		F62B17612A439B4700F824A3 /* PastLaunches in Frameworks */ = {isa = PBXBuildFile; productRef = F62B17602A439B4700F824A3 /* PastLaunches */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F603EFE02A44CAAF00948541 /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = SpaceXLaunches/Features; sourceTree = "<group>"; };
 		F62B17292A438E9900F824A3 /* SpaceXLaunches.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceXLaunches.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F62B172E2A438E9900F824A3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F62B17352A438E9A00F824A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F62B173A2A438E9A00F824A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F62B175C2A43924A00F824A3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F62B175E2A439A2F00F824A3 /* SpaceXLaunches */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SpaceXLaunches; path = SpaceXLaunches/SpaceXLaunches; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,7 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F62B17612A439B4700F824A3 /* PastLaunches in Frameworks */,
+				F606C56F2A44CA01000978BC /* PastLaunchesFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,8 +37,8 @@
 		F62B17202A438E9900F824A3 = {
 			isa = PBXGroup;
 			children = (
+				F603EFE02A44CAAF00948541 /* Features */,
 				F62B172B2A438E9900F824A3 /* SpaceXLaunches */,
-				F62B175E2A439A2F00F824A3 /* SpaceXLaunches */,
 				F62B172A2A438E9900F824A3 /* Products */,
 				F62B175F2A439B4700F824A3 /* Frameworks */,
 			);
@@ -87,7 +87,7 @@
 			);
 			name = SpaceXLaunches;
 			packageProductDependencies = (
-				F62B17602A439B4700F824A3 /* PastLaunches */,
+				F606C56E2A44CA01000978BC /* PastLaunchesFeature */,
 			);
 			productName = SpaceXLaunches;
 			productReference = F62B17292A438E9900F824A3 /* SpaceXLaunches.app */;
@@ -350,9 +350,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F62B17602A439B4700F824A3 /* PastLaunches */ = {
+		F606C56E2A44CA01000978BC /* PastLaunchesFeature */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = PastLaunches;
+			productName = PastLaunchesFeature;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
