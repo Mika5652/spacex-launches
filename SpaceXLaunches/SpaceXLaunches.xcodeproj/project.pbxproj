@@ -20,6 +20,7 @@
 		F62B17352A438E9A00F824A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F62B173A2A438E9A00F824A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F62B175C2A43924A00F824A3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F68BDD0E2A44CC440028F8D4 /* Kits */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Kits; path = SpaceXLaunches/Kits; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +38,7 @@
 		F62B17202A438E9900F824A3 = {
 			isa = PBXGroup;
 			children = (
+				F68BDD0E2A44CC440028F8D4 /* Kits */,
 				F603EFE02A44CAAF00948541 /* Features */,
 				F62B172B2A438E9900F824A3 /* SpaceXLaunches */,
 				F62B172A2A438E9900F824A3 /* Products */,
