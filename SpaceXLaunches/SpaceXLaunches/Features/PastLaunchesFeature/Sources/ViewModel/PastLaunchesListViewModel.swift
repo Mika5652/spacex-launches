@@ -1,7 +1,7 @@
 import Foundation
 
 public class PastLaunchesListViewModel {
-    private var items: [PastLaunch]
+    private(set) var items: [PastLaunch]
     private let useCase: PastLaunchesUseCaseType
 
     init(
