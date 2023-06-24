@@ -1,21 +1,46 @@
 import Foundation
 
-protocol APIClientType {
-    func data<T: Decodable>(from url: URL) async throws -> T
+public protocol APIClientType {
+
+    /// Retrieves the contents of a URL and delivers the data asynchronously in a value of the type you specify, decoded from a JSON object.
+    /// - Parameters:
+    ///   - url: The URL to retrieve.
+    ///   - decoder: An instance of `JSONDecoder`
+    /// - Returns: A value of the specified type
+    func data<T: Decodable>(from url: URL, using decoder: JSONDecoder) async throws -> T
+
+    /// Retrieves the contents of a URL and delivers the data asynchronously in a value of the type you specify, decoded from an array of JSON objects.
+    /// - Parameters:
+    ///   - url: The URL to retrieve.
+    ///   - decoder: An instance of `JSONDecoder`
+    /// - Returns: An array of values of the specified type
+    func listData<T: Decodable>(from url: URL, using decoder: JSONDecoder) async throws -> [T]
 }
 
-public struct APIClient: APIClientType {
-    func data<T: Decodable>(from url: URL) async throws -> T {
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let decoder = JSONDecoder()
-        return try decoder.decode(T.self, from: data)
+public extension APIClientType {
+    func data<T: Decodable>(from url: URL, using decoder: JSONDecoder = JSONDecoder()) async throws -> T {
+        try await self.data(from: url, using: decoder)
+    }
+
+    func listData<T: Decodable>(from url: URL, using decoder: JSONDecoder = JSONDecoder()) async throws -> [T] {
+        try await self.listData(from: url, using: decoder)
     }
 }
 
-public struct APIClientMock: APIClientType {
-    private struct MockDecodable: Decodable { }
+public struct APIClientLive: APIClientType {
+    private let session: URLSession
 
-    func data<T: Decodable>(from url: URL) async throws -> T {
-        MockDecodable() as! T
+    public init(session: URLSession = URLSession.shared) {
+        self.session = session
+    }
+
+    public func data<T>(from url: URL, using decoder: JSONDecoder) async throws -> T where T : Decodable {
+        let (data, _) = try await session.data(from: url)
+        return try decoder.decode(T.self, from: data)
+    }
+
+    public func listData<T: Decodable>(from url: URL, using decoder: JSONDecoder) async throws -> [T] {
+        let (data, _) = try await session.data(from: url)
+        return try decoder.decode([T].self, from: data)
     }
 }
