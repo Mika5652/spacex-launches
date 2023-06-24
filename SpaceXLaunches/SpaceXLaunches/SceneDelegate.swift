@@ -8,7 +8,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = PastLaunchesListViewController(viewModel: .live)
+
+        let navigationController = UINavigationController(
+            rootViewController: PastLaunchesListViewController(
+                viewModel: .live
+            )
+        )
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 }
