@@ -6,6 +6,7 @@ import SwiftUI
 
 public final class PastLaunchesListViewController: UIViewController {
     private let cellId: String = "Cell"
+
     private enum Section: Hashable {
         case main
     }
@@ -41,15 +42,41 @@ private extension PastLaunchesListViewController {
         viewModel.onInitialLoad = { [weak self] in
             guard let self else { return }
 
-            var snapshot = NSDiffableDataSourceSnapshot<Section, PastLaunch>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(viewModel.items, toSection: .main)
-            dataSource?.apply(snapshot, animatingDifferences: false)
+            DispatchQueue.main.async {
+                var snapshot = NSDiffableDataSourceSnapshot<Section, PastLaunch>()
+                snapshot.appendSections([.main])
+                snapshot.appendItems(self.viewModel.items, toSection: .main)
+                self.dataSource?.apply(snapshot, animatingDifferences: false)
+            }
+        }
+
+        viewModel.onSortingChange = {
+            DispatchQueue.main.async {
+                var currentSnapshot = self.dataSource?.snapshot()
+                currentSnapshot?.deleteItems(self.viewModel.items)
+                currentSnapshot?.appendItems(self.viewModel.items)
+                currentSnapshot.map { self.dataSource?.apply($0, animatingDifferences: false) }
+            }
         }
     }
 
     func setupViews() {
         title = viewModel.navigationTitle
+
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(
+                image: UIImage(systemName: "arrow.up.arrow.down"),
+                menu: UIMenu(
+                    title: "Sort list by",
+                    options: .singleSelection,
+                    children: viewModel.sortTypes.map { type in
+                        UIAction(title: type.rawValue) { _ in
+                            self.viewModel.handleSortAction(type)
+                        }
+                    }
+                )
+            )
+        ]
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
