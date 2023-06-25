@@ -39,7 +39,8 @@ let package = Package(
             dependencies: [
                 "PastLaunchesFeature",
                 "SharedModels",
-                .product(name: "APIClient", package: "Kits")
+                .product(name: "APIClient", package: "Kits"),
+                .product(name: "UserDefaultsClient", package: "Kits")
             ],
             path: "PastLaunchesFeature/Tests"
         ),
