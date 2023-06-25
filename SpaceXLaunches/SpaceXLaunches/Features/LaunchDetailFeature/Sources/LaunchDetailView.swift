@@ -47,7 +47,7 @@ public struct LaunchDetailView: View {
 struct LaunchDetailView_Preview: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            LaunchDetailView(item: .mock)
+            LaunchDetailView(item: .mock())
         }
     }
 }

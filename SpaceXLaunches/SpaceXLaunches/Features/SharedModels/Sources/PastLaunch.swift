@@ -74,14 +74,16 @@ private extension String {
 }
 
 public extension PastLaunch {
-    static let mock = Self(
-        id: "1",
-        dateUtc: .now,
-        name: "Starlink",
-        launchSuccessStatus: "Successful",
-        details: "Description about launch",
-        links: .mock
-    )
+    static func mock(dateUtc: Date = .now, name: String = "Starlink") -> Self {
+        Self(
+            id: "1",
+            dateUtc: dateUtc,
+            name: name,
+            launchSuccessStatus: "Successful",
+            details: "Description about launch",
+            links: .mock
+        )
+    }
 
     static let jsonMock =
     """
@@ -101,6 +103,17 @@ public extension PastLaunch {
         }
     ]
     """
+
+    static let asiaSat8: Self = .mock(dateUtc: Date(timeIntervalSince1970: 1656186036), name: "AsiaSat 8")
+    static let cassiope: Self = .mock(dateUtc: Date(timeIntervalSince1970: 1455393600), name: "CASSIOPE")
+    static let dscovr: Self = .mock(dateUtc: Date(timeIntervalSince1970: 1584733236), name: "DSCOVR")
+    static let jason3: Self = .mock(dateUtc: Date(timeIntervalSince1970: 1377057600), name: "Jason 3")
+    static let og2Mission1: Self = .mock(dateUtc: Date(timeIntervalSince1970: 1542744000), name: "OG-2 Mission 1")
+    static let ses8: Self = .mock(dateUtc: Date(timeIntervalSince1970: 1270904400), name: "SES-8")
+}
+
+public extension [PastLaunch] {
+    static var mock = [PastLaunch.asiaSat8, .cassiope, .dscovr, .jason3, .og2Mission1, .ses8]
 }
 
 public extension PastLaunch.Links {

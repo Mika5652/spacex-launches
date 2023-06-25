@@ -2,7 +2,7 @@
 import Foundation
 
 struct SortTypeUseCaseSpy: SortTypeUseCaseType {
-    var onSelectSort: (SortType) -> Void
+    var onSelectSort: ((SortType) -> Void)?
 
     var sortTypes: [SortType] {
         [.alphabetically, .dateAsc, .dateDesc]
@@ -13,6 +13,6 @@ struct SortTypeUseCaseSpy: SortTypeUseCaseType {
     }
 
     func selectSort(type: SortType) {
-        onSelectSort(type)
+        onSelectSort?(type)
     }
 }
