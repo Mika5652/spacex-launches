@@ -6,7 +6,7 @@ protocol PastLaunchesUseCaseType {
     func getItems() async throws -> [PastLaunch]
 }
 
-struct PastLaunchesUseCaseLive: PastLaunchesUseCaseType {
+struct PastLaunchesUseCase: PastLaunchesUseCaseType {
     private let apiClient: APIClientType
 
     init(apiClient: APIClientType) {
@@ -19,8 +19,29 @@ struct PastLaunchesUseCaseLive: PastLaunchesUseCaseType {
     }
 }
 
-extension PastLaunchesUseCaseType where Self == PastLaunchesUseCaseLive {
+extension PastLaunchesUseCase {
     static var live: Self {
         Self(apiClient: APIClientLive())
+    }
+
+    static var preview: Self {
+        return Self(
+            apiClient: APIClientMock(
+                dataToDecode: {
+                    PastLaunch.jsonMock.data(using: .utf8)!
+                }
+            )
+        )
+    }
+
+    static var failable: Self {
+        Self(
+            apiClient: APIClientMock(
+                dataToDecode: {
+                    struct PastLaunchesError: Error { }
+                    throw PastLaunchesError()
+                }
+            )
+        )
     }
 }
