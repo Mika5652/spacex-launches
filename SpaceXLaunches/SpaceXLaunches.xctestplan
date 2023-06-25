@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "2E89C877-881A-40DF-9A09-5A091A7011BD",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:SpaceXLaunches.xcodeproj",
+      "identifier" : "F62B17282A438E9900F824A3",
+      "name" : "SpaceXLaunches"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:SpaceXLaunches\/Features",
+        "identifier" : "PastLaunchesFeatureTests",
+        "name" : "PastLaunchesFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}
