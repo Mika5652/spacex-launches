@@ -8,12 +8,17 @@ let package = Package(
         .iOS(.v16)
     ],
     products: [
-        .library(name: "APIClient", targets: ["APIClient"])
+        .library(name: "APIClient", targets: ["APIClient"]),
+        .library(name: "UserDefaultsClient", targets: ["UserDefaultsClient"])
     ],
     targets: [
         .target(
             name: "APIClient",
             path: "APIClient/Sources"
+        ),
+        .target(
+            name: "UserDefaultsClient",
+            path: "UserDefaultsClient/Sources"
         )
     ]
 )
