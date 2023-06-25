@@ -38,6 +38,7 @@ extension PastLaunchesUseCase {
         Self(
             apiClient: APIClientMock(
                 dataToDecode: {
+                    try await Task.sleep(for: .seconds(.random(in: 0...2)))
                     struct PastLaunchesError: Error { }
                     throw PastLaunchesError()
                 }
