@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PastLaunch: Identifiable, Decodable, Hashable {
+public struct PastLaunch: Identifiable, Codable, Hashable {
     public let id: String
     public let dateUtc: Date
     public let name: String
@@ -50,7 +50,7 @@ public struct PastLaunch: Identifiable, Decodable, Hashable {
         self.links = nolinksAvailable ? nil : links
     }
 
-    public struct Links: Decodable, Hashable {
+    public struct Links: Codable, Hashable {
         public let presskit: URL?
         public let webcast: URL?
         public let article: URL?
@@ -82,6 +82,25 @@ public extension PastLaunch {
         details: "Description about launch",
         links: .mock
     )
+
+    static let jsonMock =
+    """
+    [
+        {
+            "links": {
+                "presskit": "https://www.nasa.gov/pdf/694166main_SpaceXCRS-1PressKit.pdf",
+                "webcast": "https://www.youtube.com/watch?v=-Vk3hiV_zXU",
+                "article": "https://www.nasa.gov/mission_pages/station/main/spacex-crs1-target.html",
+                "wikipedia": "https://en.wikipedia.org/wiki/SpaceX_CRS-1"
+            },
+            "success": true,
+            "details": "CRS-1 successful, but the secondary payload was inserted into abnormally low orbit and lost due to Falcon 9 boost stage engine failure, ISS visiting vehicle safety rules, and the primary payload owner's contractual right to decline a second ignition of the second stage under some conditions.",
+            "name": "CRS-1",
+            "date_utc": "2012-10-08T00:35:00.000Z",
+            "id": "5eb87ce0ffd86e000604b332"
+        }
+    ]
+    """
 }
 
 public extension PastLaunch.Links {
