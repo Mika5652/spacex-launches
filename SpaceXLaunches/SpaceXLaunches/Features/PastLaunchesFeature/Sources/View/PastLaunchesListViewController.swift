@@ -1,6 +1,8 @@
 import Foundation
+import LaunchDetailFeature
 import UIKit
 import SharedModels
+import SwiftUI
 
 public final class PastLaunchesListViewController: UIViewController {
     private let cellId: String = "Cell"
@@ -80,8 +82,15 @@ private extension PastLaunchesListViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+}
 
-
-
+extension PastLaunchesListViewController: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let hostingView = UIHostingController(
+            rootView: LaunchDetailView(
+                item: viewModel.items[indexPath.row]
+            )
+        )
+        navigationController?.pushViewController(hostingView, animated: true)
     }
 }

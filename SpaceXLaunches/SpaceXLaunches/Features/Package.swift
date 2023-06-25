@@ -26,6 +26,7 @@ let package = Package(
         .target(
             name: "PastLaunchesFeature",
             dependencies: [
+                "LaunchDetailFeature",
                 "SharedModels",
                 .product(name: "APIClient", package: "Kits")
             ],
