@@ -101,7 +101,17 @@ private extension PastLaunchesListViewModel {
 
 public extension PastLaunchesListViewModel {
     static let live = PastLaunchesListViewModel(
-        pastLaunchesUseCase: PastLaunchesUseCaseLive.live,
+        pastLaunchesUseCase: PastLaunchesUseCase.live,
+        sortTypeUseCase: SortTypeUseCase.live
+    )
+
+    static let preview = PastLaunchesListViewModel(
+        pastLaunchesUseCase: PastLaunchesUseCase.preview,
+        sortTypeUseCase: SortTypeUseCase.live
+    )
+
+    static let failable = PastLaunchesListViewModel(
+        pastLaunchesUseCase: PastLaunchesUseCase.failable,
         sortTypeUseCase: SortTypeUseCase.live
     )
 }
