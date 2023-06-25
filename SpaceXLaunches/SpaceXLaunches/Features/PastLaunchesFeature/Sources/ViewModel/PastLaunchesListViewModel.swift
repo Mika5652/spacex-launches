@@ -1,4 +1,5 @@
 import Foundation
+import SharedModels
 
 public class PastLaunchesListViewModel {
     private(set) var items: [PastLaunch]

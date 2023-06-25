@@ -1,5 +1,6 @@
 import APIClient
 import Foundation
+import SharedModels
 
 protocol PastLaunchesUseCaseType {
     func getItems() async throws -> [PastLaunch]

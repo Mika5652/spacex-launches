@@ -26,6 +26,7 @@ let package = Package(
         .target(
             name: "PastLaunchesFeature",
             dependencies: [
+                "SharedModels",
                 .product(name: "APIClient", package: "Kits")
             ],
             path: "PastLaunchesFeature/Sources"

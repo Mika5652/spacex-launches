@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SharedModels
 
 public final class PastLaunchesListViewController: UIViewController {
     private let cellId: String = "Cell"
