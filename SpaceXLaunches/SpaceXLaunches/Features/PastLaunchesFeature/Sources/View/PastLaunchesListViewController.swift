@@ -62,19 +62,19 @@ private extension PastLaunchesListViewController {
     }
 
     func setupViews() {
-        title = viewModel.navigationTitle
+        title = "Past Launches"
 
         let searchController = UISearchController()
-        searchController.searchBar.placeholder = viewModel.searchPlaceholder
+        searchController.searchBar.placeholder = "Search in names..."
         searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
 
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(
-                image: UIImage(systemName: viewModel.searchButtonImageName),
+                image: UIImage(systemName: "arrow.up.arrow.down"),
                 menu: UIMenu(
-                    title: viewModel.sortMenuTitle,
+                    title: "Sort list by",
                     options: .singleSelection,
                     children: viewModel.sortTypes.map { type in
                         UIAction(

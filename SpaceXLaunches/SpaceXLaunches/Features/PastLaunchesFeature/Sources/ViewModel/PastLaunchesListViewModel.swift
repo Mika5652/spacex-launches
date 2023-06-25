@@ -22,22 +22,6 @@ public class PastLaunchesListViewModel {
         self.sortTypeUseCase = sortTypeUseCase
     }
 
-    var navigationTitle: String {
-        "Past Launches"
-    }
-
-    var searchPlaceholder: String {
-        "Search in names..."
-    }
-
-    var searchButtonImageName: String {
-        "arrow.up.arrow.down"
-    }
-
-    var sortMenuTitle: String {
-        "Sort list by"
-    }
-
     var sortTypes: [SortType] {
         sortTypeUseCase.sortTypes
     }
