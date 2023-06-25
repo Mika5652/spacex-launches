@@ -39,17 +39,6 @@ public final class PastLaunchesListViewController: UIViewController {
 
 private extension PastLaunchesListViewController {
     func setupBindings() {
-        viewModel.onInitialLoad = { [weak self] in
-            guard let self else { return }
-
-            DispatchQueue.main.async {
-                var snapshot = NSDiffableDataSourceSnapshot<Section, PastLaunch>()
-                snapshot.appendSections([.main])
-                snapshot.appendItems(self.viewModel.items, toSection: .main)
-                self.dataSource?.apply(snapshot, animatingDifferences: false)
-            }
-        }
-
         viewModel.onSortingChange = {
             DispatchQueue.main.async {
                 self.reloadData()
@@ -79,7 +68,10 @@ private extension PastLaunchesListViewController {
                     title: viewModel.sortMenuTitle,
                     options: .singleSelection,
                     children: viewModel.sortTypes.map { type in
-                        UIAction(title: type.rawValue) { _ in
+                        UIAction(
+                            title: type.rawValue,
+                            state: self.viewModel.isTypeSelected(type) ? .on : .off
+                        ) { _ in
                             self.viewModel.handleSortAction(type)
                         }
                     }

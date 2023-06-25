@@ -4,19 +4,21 @@ import SharedModels
 public class PastLaunchesListViewModel {
     private var allItems: [PastLaunch]
     private(set) var items: [PastLaunch]
-    private let useCase: PastLaunchesUseCaseType
+    private let pastLaunchesUseCase: PastLaunchesUseCaseType
+    private let sortTypeUseCase: SortTypeUseCaseType
 
-    var onInitialLoad: (() -> Void)?
     var onSortingChange: (() -> Void)?
     var onSearchChange: (() -> Void)?
 
     init(
         items: [PastLaunch] = [],
-        useCase: PastLaunchesUseCaseType
+        pastLaunchesUseCase: PastLaunchesUseCaseType,
+        sortTypeUseCase: SortTypeUseCaseType
     ) {
         self.items = items
         self.allItems = items
-        self.useCase = useCase
+        self.pastLaunchesUseCase = pastLaunchesUseCase
+        self.sortTypeUseCase = sortTypeUseCase
     }
 
     var navigationTitle: String {
@@ -36,14 +38,14 @@ public class PastLaunchesListViewModel {
     }
 
     var sortTypes: [SortType] {
-        SortType.allCases
+        sortTypeUseCase.sortTypes
     }
 
     func onViewDidLoad() {
         Task {
-            items = try await useCase.getItems()
+            items = try await pastLaunchesUseCase.getItems()
+            handleSortAction(sortTypeUseCase.selectedSortType)
             allItems = items
-            onInitialLoad?()
         }
     }
 
@@ -56,7 +58,13 @@ public class PastLaunchesListViewModel {
         case .dateAsc:
             items.sort { $0.dateUtc < $1.dateUtc }
         }
+
+        sortTypeUseCase.selectSort(type: type)
         onSortingChange?()
+    }
+
+    func isTypeSelected(_ type: SortType) -> Bool {
+        type == sortTypeUseCase.selectedSortType
     }
 
     func searchTextDidChange(_ searchText: String) {
@@ -78,6 +86,7 @@ public class PastLaunchesListViewModel {
 
 public extension PastLaunchesListViewModel {
     static let live = PastLaunchesListViewModel(
-        useCase: PastLaunchesUseCaseLive.live
+        pastLaunchesUseCase: PastLaunchesUseCaseLive.live,
+        sortTypeUseCase: SortTypeUseCase.live
     )
 }
