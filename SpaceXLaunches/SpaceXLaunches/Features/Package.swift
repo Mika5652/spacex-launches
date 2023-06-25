@@ -8,6 +8,7 @@ let package = Package(
         .iOS(.v16)
     ],
     products: [
+        .library(name: "LaunchDetailFeature", targets: ["LaunchDetailFeature"]),
         .library(name: "PastLaunchesFeature", targets: ["PastLaunchesFeature"]),
         .library(name: "SharedModels", targets: ["SharedModels"])
     ],
@@ -15,6 +16,13 @@ let package = Package(
         .package(path: "../Kits")
     ],
     targets: [
+        .target(
+            name: "LaunchDetailFeature",
+            dependencies: [
+                "SharedModels"
+            ],
+            path: "LaunchDetailFeature/Sources"
+        ),
         .target(
             name: "PastLaunchesFeature",
             dependencies: [
