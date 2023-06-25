@@ -2,12 +2,6 @@ import Foundation
 import SharedModels
 
 public class PastLaunchesListViewModel {
-    enum SortType: String, CaseIterable {
-        case alphabetically = "Alphabetically"
-        case dateDesc = "Most recent"
-        case dateAsc = "Oldest"
-    }
-
     private var allItems: [PastLaunch]
     private(set) var items: [PastLaunch]
     private let useCase: PastLaunchesUseCaseType
