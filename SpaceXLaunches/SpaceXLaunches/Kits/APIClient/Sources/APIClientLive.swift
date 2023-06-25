@@ -34,7 +34,7 @@ public struct APIClientLive: APIClientType {
         self.session = session
     }
 
-    public func data<T>(from url: URL, using decoder: JSONDecoder) async throws -> T where T : Decodable {
+    public func data<T: Decodable>(from url: URL, using decoder: JSONDecoder) async throws -> T {
         let (data, _) = try await session.data(from: url)
         return try decoder.decode(T.self, from: data)
     }
