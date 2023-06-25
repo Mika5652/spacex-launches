@@ -7,10 +7,9 @@ public final class PastLaunchesListViewController: UIViewController {
         case main
     }
 
-    private var taskCancellables: Set<Task<(), Error>>?
     private let viewModel: PastLaunchesListViewModel
 
-    private let tableView = UITableView()
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private var dataSource: UITableViewDiffableDataSource<Section, PastLaunch>?
 
     public init(viewModel: PastLaunchesListViewModel) {
@@ -18,6 +17,7 @@ public final class PastLaunchesListViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        setupBindings()
         setupViews()
         setupConstraints()
     }
@@ -26,27 +26,31 @@ public final class PastLaunchesListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        taskCancellables?.forEach { $0.cancel() }
-    }
-
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        let task = Task {
-            try await viewModel.onViewDidLoad()
-            configureInitialDiffableSnapshot()
-        }
-        taskCancellables?.insert(task)
+        viewModel.onViewDidLoad()
     }
 }
 
 private extension PastLaunchesListViewController {
+    func setupBindings() {
+        viewModel.onInitialLoad = { [weak self] in
+            guard let self else { return }
+
+            var snapshot = NSDiffableDataSourceSnapshot<Section, PastLaunch>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(viewModel.items, toSection: .main)
+            dataSource?.apply(snapshot, animatingDifferences: false)
+        }
+    }
+
     func setupViews() {
-        title = "Past launches"
+        title = viewModel.navigationTitle
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.delegate = self
 
         dataSource = UITableViewDiffableDataSource(tableView: tableView) { tableView, _, pastLaunch in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: self.cellId) else {
@@ -56,7 +60,10 @@ private extension PastLaunchesListViewController {
             var content = cell.defaultContentConfiguration()
             content.text = pastLaunch.name
             content.secondaryText = pastLaunch.dateUtc.formatted(date: .numeric, time: .shortened)
+            content.secondaryTextProperties.color = .secondaryLabel
             cell.contentConfiguration = content
+            cell.accessoryType = .disclosureIndicator
+            cell.selectionStyle = .none
 
             return cell
         }
@@ -73,12 +80,7 @@ private extension PastLaunchesListViewController {
         ])
     }
 
-    func configureInitialDiffableSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, PastLaunch>()
 
-        snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.items, toSection: .main)
 
-        dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }

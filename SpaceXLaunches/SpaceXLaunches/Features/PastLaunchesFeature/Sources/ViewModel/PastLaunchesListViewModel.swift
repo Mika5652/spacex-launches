@@ -4,6 +4,8 @@ public class PastLaunchesListViewModel {
     private(set) var items: [PastLaunch]
     private let useCase: PastLaunchesUseCaseType
 
+    var onInitialLoad: (() -> Void)?
+
     init(
         items: [PastLaunch] = [],
         useCase: PastLaunchesUseCaseType
@@ -12,8 +14,15 @@ public class PastLaunchesListViewModel {
         self.useCase = useCase
     }
 
-    func onViewDidLoad() async throws {
-        items = try await useCase.getItems()
+    var navigationTitle: String {
+        "Past Launches"
+    }
+
+    func onViewDidLoad() {
+        Task {
+            items = try await useCase.getItems()
+            onInitialLoad?()
+        }
     }
 }
 
