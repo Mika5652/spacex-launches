@@ -9,6 +9,7 @@ let package = Package(
     ],
     products: [
         .library(name: "PastLaunchesFeature", targets: ["PastLaunchesFeature"]),
+        .library(name: "SharedModels", targets: ["SharedModels"])
     ],
     dependencies: [
         .package(path: "../Kits")
@@ -20,6 +21,10 @@ let package = Package(
                 .product(name: "APIClient", package: "Kits")
             ],
             path: "PastLaunchesFeature/Sources"
+        ),
+        .target(
+            name: "SharedModels",
+            path: "SharedModels/Sources"
         )
     ]
 )
