@@ -7,6 +7,7 @@ public class PastLaunchesListViewModel {
     private let pastLaunchesUseCase: PastLaunchesUseCaseType
     private let sortTypeUseCase: SortTypeUseCaseType
 
+    var onLoadingError: (() -> Void)?
     var onSortingChange: (() -> Void)?
     var onSearchChange: (() -> Void)?
 
@@ -42,11 +43,7 @@ public class PastLaunchesListViewModel {
     }
 
     func onViewDidLoad() {
-        Task {
-            items = try await pastLaunchesUseCase.getItems()
-            handleSortAction(sortTypeUseCase.selectedSortType)
-            allItems = items
-        }
+        loadData()
     }
 
     func handleSortAction(_ type: SortType) {
@@ -81,6 +78,24 @@ public class PastLaunchesListViewModel {
     func searchBarCancelButtonTapped() {
         items = allItems
         onSearchChange?()
+    }
+
+    func tryAgainAlertButtonTapped() {
+        loadData()
+    }
+}
+
+private extension PastLaunchesListViewModel {
+    func loadData() {
+        Task {
+            do {
+                items = try await pastLaunchesUseCase.getItems()
+                handleSortAction(sortTypeUseCase.selectedSortType)
+                allItems = items
+            } catch {
+                onLoadingError?()
+            }
+        }
     }
 }
 

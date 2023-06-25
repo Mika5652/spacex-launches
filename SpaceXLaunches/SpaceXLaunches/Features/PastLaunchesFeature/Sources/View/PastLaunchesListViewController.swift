@@ -50,6 +50,12 @@ private extension PastLaunchesListViewController {
                 self.reloadData()
             }
         }
+
+        viewModel.onLoadingError = { [weak self] in
+            DispatchQueue.main.async {
+                self?.showAlert()
+            }
+        }
     }
 
     func setupViews() {
@@ -117,6 +123,24 @@ private extension PastLaunchesListViewController {
         currentSnapshot?.appendSections([.main])
         currentSnapshot?.appendItems(self.viewModel.items)
         currentSnapshot.map { self.dataSource?.apply($0, animatingDifferences: false) }
+    }
+
+    func showAlert() {
+        let alertController = UIAlertController(
+            title: "Error",
+            message: "Loading data error, please try again",
+            preferredStyle: .alert
+        )
+
+        let tryAgainAction = UIAlertAction(title: "Try again", style: .default) { _ in
+            self.viewModel.tryAgainAlertButtonTapped()
+        }
+        alertController.addAction(tryAgainAction)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(cancelAction)
+
+        navigationController?.present(alertController, animated: true)
     }
 }
 
