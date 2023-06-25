@@ -10,6 +10,7 @@ let package = Package(
     products: [
         .library(name: "LaunchDetailFeature", targets: ["LaunchDetailFeature"]),
         .library(name: "PastLaunchesFeature", targets: ["PastLaunchesFeature"]),
+        .library(name: "PastLaunchesFeatureTests", targets: ["PastLaunchesFeatureTests"]),
         .library(name: "SharedModels", targets: ["SharedModels"])
     ],
     dependencies: [
@@ -32,6 +33,15 @@ let package = Package(
                 .product(name: "UserDefaultsClient", package: "Kits")
             ],
             path: "PastLaunchesFeature/Sources"
+        ),
+        .testTarget(
+            name: "PastLaunchesFeatureTests",
+            dependencies: [
+                "PastLaunchesFeature",
+                "SharedModels",
+                .product(name: "APIClient", package: "Kits")
+            ],
+            path: "PastLaunchesFeature/Tests"
         ),
         .target(
             name: "SharedModels",
