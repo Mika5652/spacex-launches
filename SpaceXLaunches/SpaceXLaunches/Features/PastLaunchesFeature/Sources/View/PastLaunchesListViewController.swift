@@ -14,6 +14,7 @@ public final class PastLaunchesListViewController: UIViewController {
     private let viewModel: PastLaunchesListViewModel
 
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let activityIndicator = UIActivityIndicatorView(style: .medium)
     private var dataSource: UITableViewDiffableDataSource<Section, PastLaunch>?
 
     public init(viewModel: PastLaunchesListViewModel) {
@@ -41,6 +42,7 @@ private extension PastLaunchesListViewController {
     func setupBindings() {
         viewModel.onSortingChange = {
             DispatchQueue.main.async {
+                self.hideActivityIndicatorIfNeeded()
                 self.reloadData()
             }
         }
@@ -53,6 +55,7 @@ private extension PastLaunchesListViewController {
 
         viewModel.onLoadingError = { [weak self] in
             DispatchQueue.main.async {
+                self?.hideActivityIndicatorIfNeeded()
                 self?.showAlert()
             }
         }
@@ -89,6 +92,9 @@ private extension PastLaunchesListViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.delegate = self
 
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.startAnimating()
+
         dataSource = UITableViewDiffableDataSource(tableView: tableView) { tableView, _, pastLaunch in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: self.cellId) else {
                 return UITableViewCell()
@@ -108,12 +114,16 @@ private extension PastLaunchesListViewController {
 
     func setupConstraints() {
         view.addSubview(tableView)
+        view.addSubview(activityIndicator)
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 
@@ -133,6 +143,7 @@ private extension PastLaunchesListViewController {
         )
 
         let tryAgainAction = UIAlertAction(title: "Try again", style: .default) { _ in
+            self.activityIndicator.startAnimating()
             self.viewModel.tryAgainAlertButtonTapped()
         }
         alertController.addAction(tryAgainAction)
@@ -141,6 +152,12 @@ private extension PastLaunchesListViewController {
         alertController.addAction(cancelAction)
 
         navigationController?.present(alertController, animated: true)
+    }
+
+    func hideActivityIndicatorIfNeeded() {
+        if self.activityIndicator.isAnimating {
+            self.activityIndicator.stopAnimating()
+        }
     }
 }
 
