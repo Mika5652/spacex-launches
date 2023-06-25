@@ -10,7 +10,6 @@ let package = Package(
     products: [
         .library(name: "LaunchDetailFeature", targets: ["LaunchDetailFeature"]),
         .library(name: "PastLaunchesFeature", targets: ["PastLaunchesFeature"]),
-        .library(name: "PastLaunchesFeatureTests", targets: ["PastLaunchesFeatureTests"]),
         .library(name: "SharedModels", targets: ["SharedModels"])
     ],
     dependencies: [
