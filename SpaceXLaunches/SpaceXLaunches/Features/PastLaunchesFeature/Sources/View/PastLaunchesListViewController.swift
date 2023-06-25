@@ -52,10 +52,13 @@ private extension PastLaunchesListViewController {
 
         viewModel.onSortingChange = {
             DispatchQueue.main.async {
-                var currentSnapshot = self.dataSource?.snapshot()
-                currentSnapshot?.deleteItems(self.viewModel.items)
-                currentSnapshot?.appendItems(self.viewModel.items)
-                currentSnapshot.map { self.dataSource?.apply($0, animatingDifferences: false) }
+                self.reloadData()
+            }
+        }
+
+        viewModel.onSearchChange = {
+            DispatchQueue.main.async {
+                self.reloadData()
             }
         }
     }
@@ -63,11 +66,17 @@ private extension PastLaunchesListViewController {
     func setupViews() {
         title = viewModel.navigationTitle
 
+        let searchController = UISearchController()
+        searchController.searchBar.placeholder = viewModel.searchPlaceholder
+        searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(
-                image: UIImage(systemName: "arrow.up.arrow.down"),
+                image: UIImage(systemName: viewModel.searchButtonImageName),
                 menu: UIMenu(
-                    title: "Sort list by",
+                    title: viewModel.sortMenuTitle,
                     options: .singleSelection,
                     children: viewModel.sortTypes.map { type in
                         UIAction(title: type.rawValue) { _ in
@@ -109,6 +118,14 @@ private extension PastLaunchesListViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+
+    func reloadData() {
+        var currentSnapshot = self.dataSource?.snapshot()
+        currentSnapshot?.deleteAllItems()
+        currentSnapshot?.appendSections([.main])
+        currentSnapshot?.appendItems(self.viewModel.items)
+        currentSnapshot.map { self.dataSource?.apply($0, animatingDifferences: false) }
+    }
 }
 
 extension PastLaunchesListViewController: UITableViewDelegate {
@@ -119,5 +136,15 @@ extension PastLaunchesListViewController: UITableViewDelegate {
             )
         )
         navigationController?.pushViewController(hostingView, animated: true)
+    }
+}
+
+extension PastLaunchesListViewController: UISearchBarDelegate {
+    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.searchTextDidChange(searchText)
+    }
+
+    public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.searchBarCancelButtonTapped()
     }
 }
